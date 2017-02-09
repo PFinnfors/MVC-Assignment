@@ -1,0 +1,48 @@
+﻿@*/Views/Features/FeverCheck.cshtml*@
+
+@model MVCAssignment.Models.FeverCheck
+
+@{
+    ViewBag.Title = "FeverCheck";
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+}
+
+<h1>Fever check</h1>
+
+@* Creates form which posts by refreshing page *@
+@using (Html.BeginForm("FeverCheck", "Features", FormMethod.Post))
+{
+    <fieldset>
+        <legend>Your body temperature:</legend>
+        <div>
+            @* Html helper picks element for temperature value *@
+            @Html.EditorFor(Model => Model.MyTemp) @Model.UnitChoice(Model.CelsiusOn)
+        </div>
+        <div>
+            @* Submit button for the form *@
+            <input type="submit" value="Submit" alt="submit" />
+        </div>
+        <br />
+        <div>
+            @* Result / placeholder is displayed *@
+            <span id="boldResult">
+                @Html.DisplayFor(m => m.MyTempResult)
+            </span>
+            @* When user has hypothermia or fever, the result message sets to bold *@
+            @if (Model.SetBold == true)
+            {
+                <script>document.getElementById("boldResult").style.fontWeight = "bold"</script>
+            }
+        </div>
+        <br />
+        <div>
+            @* A checkbox that initially sets itself to true *@
+            Use Celsius: @Html.CheckBoxFor(m => m.CelsiusOn,
+                        new { value = true })
+        </div>
+        <br />
+
+    </fieldset>
+
+    <br />
+}

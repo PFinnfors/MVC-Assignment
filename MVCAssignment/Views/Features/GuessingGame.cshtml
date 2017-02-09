@@ -1,0 +1,44 @@
+﻿@*/Views/Features/GuessingGame.cshtml*@
+
+@model MVCAssignment.Models.GuessingGame
+
+@{
+    ViewBag.Title = "GuessingGame";
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+}
+
+<h2>Welcome to the Guessing Game</h2>
+
+@using (Html.BeginForm(controllerName: "Features", actionName: "GuessingGame", method: FormMethod.Post))
+{
+    <div>
+        @*  *@
+        @Html.DisplayFor(Model => Model.NumLabel)
+    </div>
+    <div>
+        @*  *@
+
+        @{
+
+            Model.NumChoice = Convert.ToInt32(Session["Choice"]);
+        }
+
+        Choice: @Html.EditorFor(Model => Model.NumChoice)
+
+    </div>
+    <div>
+        @*  *@
+        @* Displays the number that will be randomized *@
+
+
+        New Random: @Html.EditorFor(Model => Model.NumRand)
+        <br />
+        Prev Random: @Session["Random"].ToString()
+    </div>
+    <div>
+        Result: @Html.DisplayFor(Model => Model.Result)
+    </div>
+    <div>
+        <input type="submit" value="Guess" />
+    </div>
+            }

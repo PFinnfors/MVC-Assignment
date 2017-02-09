@@ -1,0 +1,21 @@
+﻿@*Views/Home/Index.cshtml*@
+
+@model MVCAssignment.Models.Home
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+}
+
+<h1>Home</h1>
+
+<p><span style="font-weight:bold">Welcome to my page!</span> You're using this site from IP @IPAddress.Broadcast.</p>
+<br />
+<div>
+    <img src="https://unsplash.it/300/200/?gravity=east" alt="placeholder" />
+</div>
+
+<br />
+<br />
+@Html.ActionLink("Fever check!", "FeverCheck", "Features")
+
+@Html.ActionLink("Guessing Game!", "GuessingGame", "Features")
