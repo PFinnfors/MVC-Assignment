@@ -19,8 +19,7 @@
         @*  *@
 
         @{
-
-            Model.NumChoice = Convert.ToInt32(Session["Choice"]);
+            Model.NumChoice = Convert.ToInt16(Session["Choice"]);
         }
 
         Choice: @Html.EditorFor(Model => Model.NumChoice)
@@ -30,15 +29,22 @@
         @*  *@
         @* Displays the number that will be randomized *@
 
-
-        New Random: @Html.EditorFor(Model => Model.NumRand)
+        New Random: @Model.NumRand
         <br />
+
         Prev Random: @Session["Random"].ToString()
     </div>
     <div>
         Result: @Html.DisplayFor(Model => Model.Result)
     </div>
     <div>
+        @*Storing the choice and random into session states*@
+        @{
+            //Model.guessCookie["Count"]
+            Session["Random"] = Model.NumRand;
+            Session["Choice"] = Model.NumChoice;
+        }
+
         <input type="submit" value="Guess" />
     </div>
             }

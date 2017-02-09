@@ -38,6 +38,11 @@ namespace MVCAssignment.Controllers
             Guess.Result = "Your result will show up here.";
             Guess.NumChoice = 0;
             Guess.NumRand = 0;
+            Guess.Test = "X";
+
+            Session["Random"] = 0;
+            Session["Choice"] = 0;
+            Session["Guess"] = 0;
 
             //Gives NumRand a random number
             Guess.NumRand = Guess.NumRandomizer(Guess.NumRand);
@@ -48,15 +53,9 @@ namespace MVCAssignment.Controllers
         [HttpPost]
         public ActionResult GuessingGame(GuessingGame Guess)
         {
-            //Adds the guess to a list of guesses
-
-
-            //Storing the choice and random into session state
-            Session["Random"] = Guess.NumRand;
-            Session["Choice"] = Guess.NumChoice;
-
-            
-            //Session["Guesses"] = Guess.guessList;
+            //
+            //Guess.guessCookie[$"Guess{Request.Cookies.}"] = "5";
+            //Response.Cookies.Add(Guess.guessCookie);
 
             //New random for next page
             Guess.NumRand = Guess.NumRandomizer(Guess.NumRand);

@@ -13,8 +13,9 @@ namespace MVCAssignment.Models
         public string Result { get; set; }
         public int NumChoice { get; set; }
         public int NumRand { get; set; }
+        public string Test { get; set; }
 
-        public HttpCookie guessCookie = new HttpCookie("guess");
+        public HttpCookie guessCookie = new HttpCookie("GuessCookie");
         public Random rand = new Random();
 
         public int NumRandomizer(int num)
