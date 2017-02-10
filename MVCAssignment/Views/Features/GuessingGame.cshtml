@@ -11,47 +11,56 @@
 
 @using (Html.BeginForm(controllerName: "Features", actionName: "GuessingGame", method: FormMethod.Post))
 {
+
+
+
     <div>
-        @*  *@
+        @* Displays NumLabel *@
         @Html.DisplayFor(Model => Model.NumLabel)
     </div>
-    <div>
-        @*  *@
 
+
+
+    <div>
         @{
+            //Update to fit Session
             Model.NumChoice = Convert.ToInt16(Session["Choice"]);
         }
 
+        @* Textbox bound to NumChoice *@
         Choice: @Html.EditorFor(Model => Model.NumChoice)
-
     </div>
-    <div>
-        @*  *@
-        @* Displays the number that will be randomized *@
 
-        New Random: @Model.NumRand
-        <br />
 
-        Prev Random: @Session["Random"].ToString()
-    </div>
+
     <div>
         @{
+            //Changes result to previously stored Session result
             Model.Result = Session["Evaluation"].ToString();
         }
 
         Result: @Html.DisplayFor(Model => Model.Result)
     </div>
+
+    <br />
+
     <div>
-
-        @*Storing the choice and random into session states*@
         @{
+            //Updates record with its session
+            Model.guessRecord = (List<string>)Session["GuessRecord"];
+        }
 
-            Session["Random"] = Model.NumRand;
-            Session["Choice"] = Model.NumChoice;
-            Session["GuessList"] = Model.GuessRecord;
+        List: @Model.guessRecord.Count
 
+        @{
+            //Adding result to be displayed
+            int tempRand = Convert.ToInt16(Session["Random"]);
+            Session["Evaluation"] = Model.ChoiceEvaluation(Model, tempRand);
         }
 
         <input type="submit" value="Guess" />
     </div>
+
+
+
             }

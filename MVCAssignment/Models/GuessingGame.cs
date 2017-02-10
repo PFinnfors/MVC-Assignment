@@ -13,13 +13,13 @@ namespace MVCAssignment.Models
         public string Result { get; set; }
         public int NumChoice { get; set; }
         public int NumRand { get; set; }
-        public string GuessRecord { get; set; }
+        public List<string> guessRecord = new List<string>();
 
         public Random rand = new Random();
 
         public int NumRandomizer(int num)
         {
-            num = rand.Next(1, 10);
+            num = rand.Next(1, 100);
             return num;
         }
 
@@ -41,6 +41,10 @@ namespace MVCAssignment.Models
             {
                 guessClass.Result = "Something went wrong...";
             }
+
+            //Gives a new random number
+            guessClass.NumRand = guessClass.NumRandomizer(guessClass.NumRand);
+
             return guessClass.Result;
         }
     }

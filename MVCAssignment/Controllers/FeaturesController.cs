@@ -33,21 +33,23 @@ namespace MVCAssignment.Controllers
         [HttpGet]
         public ActionResult GuessingGame()
         {
-            //Initializing everything
+            //Initializing
             GuessingGame Guess = new GuessingGame();
             Guess.NumLabel = "Guess a number between 1-10!";
             Guess.Result = "Your result will show up here.";
             Guess.NumChoice = 0;
             Guess.NumRand = 0;
-            Guess.GuessRecord = "";
-
-            Session["Random"] = 0;
-            Session["Choice"] = 0;
-            Session["Evaluation"] = 0;
-            Session["GuessList"] = Guess.GuessRecord;
 
             //Gives NumRand a random number
             Guess.NumRand = Guess.NumRandomizer(Guess.NumRand);
+
+            //Initializing session variables
+            Session["Random"] = Guess.NumRand;
+            Session["Choice"] = 0;
+            Session["Evaluation"] = 0;
+            Session["GuessRecord"] = Guess.guessRecord;
+
+            
 
             return View(Guess);
         }
@@ -55,12 +57,18 @@ namespace MVCAssignment.Controllers
         [HttpPost]
         public ActionResult GuessingGame(GuessingGame Guess)
         {
-            //New random for next page
-            Guess.NumRand = Guess.NumRandomizer(Guess.NumRand);
+            //Adds choice to its Session
+            Session["Choice"] = Guess.NumChoice;
 
-            //Adding result to be displayed
-            int tempRand = Convert.ToInt16(Session["Random"]);
-            Session["Evaluation"] = Guess.ChoiceEvaluation(Guess, tempRand);
+            //Updates record with its Session
+            Guess.guessRecord = (List<string>)Session["GuessRecord"];
+
+            //If choice isn't default value, add to record and update record Session
+            if (Guess.NumChoice != 0)
+            {
+                Guess.guessRecord.Add(Guess.NumChoice.ToString());
+                Session["GuessRecord"] = Guess.guessRecord;
+            }
 
             return View(Guess);
         }
