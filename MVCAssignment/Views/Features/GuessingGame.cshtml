@@ -46,19 +46,23 @@
 
     <div>
         @{
-            //Updates record with its session
+            //Updates record with its session state
             Model.guessRecord = (List<string>)Session["GuessRecord"];
         }
 
         List: @Model.guessRecord.Count
 
         @{
-            //Adding result to be displayed
-            int tempRand = Convert.ToInt16(Session["Random"]);
-            Session["Evaluation"] = Model.ChoiceEvaluation(Model, tempRand);
+            //Setting result to be displayed
+            Session["Evaluation"] = Model.ChoiceEvaluation(Model, Convert.ToInt16(Session["Random"]));
         }
 
         <input type="submit" value="Guess" />
+    </div>
+    <br />
+    <br />
+    <div>
+        @Html.ActionLink("New Game", "GuessingGame")
     </div>
 
 

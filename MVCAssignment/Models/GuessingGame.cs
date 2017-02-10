@@ -47,5 +47,22 @@ namespace MVCAssignment.Models
 
             return guessClass.Result;
         }
+
+        public string AddToRec(GuessingGame guessClass, List<string> sessionRec, string sessionEval)
+        {
+            if (NumChoice >= 1 && NumChoice <= 100)
+            {
+                guessRecord.Add(NumChoice.ToString());
+                sessionRec = guessRecord;
+            }
+            //
+            else
+            {
+                sessionEval = "Oops! Your guess must be between 1 and 100!";
+            }
+
+            return sessionEval;
+        }
+
     }
 }

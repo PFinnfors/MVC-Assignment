@@ -49,8 +49,6 @@ namespace MVCAssignment.Controllers
             Session["Evaluation"] = 0;
             Session["GuessRecord"] = Guess.guessRecord;
 
-            
-
             return View(Guess);
         }
 
@@ -63,12 +61,11 @@ namespace MVCAssignment.Controllers
             //Updates record with its Session
             Guess.guessRecord = (List<string>)Session["GuessRecord"];
 
-            //If choice isn't default value, add to record and update record Session
-            if (Guess.NumChoice != 0)
-            {
-                Guess.guessRecord.Add(Guess.NumChoice.ToString());
-                Session["GuessRecord"] = Guess.guessRecord;
-            }
+            //If choice is valid, add to record and update record Session
+            Session["Evaluation"] = Guess.AddToRec(
+                Guess,
+                (List<string>)Session["GuessRecord"],
+                (string)Session["Evaluation"]);
 
             return View(Guess);
         }
