@@ -9,6 +9,8 @@ namespace MVCAssignment.Controllers
 {
     public class FeaturesController : Controller
     {
+        //FEVER CHECK
+
         //GET: FeverCheck
         [Route("~/FeverCheck")]
         public ActionResult FeverCheck()
@@ -30,10 +32,14 @@ namespace MVCAssignment.Controllers
             return View(Fever);
         }
 
+        
+        // -------------------------------------------------------------------------------
+        //GUESSING GAME
+
         [HttpGet]
         public ActionResult GuessingGame()
         {
-            //Initializing
+            //Initializing values
             GuessingGame Guess = new GuessingGame();
             Guess.NumLabel = "Guess a number between 1-10!";
             Guess.Result = "Your result will show up here.";
@@ -46,7 +52,7 @@ namespace MVCAssignment.Controllers
             //Initializing session variables
             Session["Random"] = Guess.NumRand;
             Session["Choice"] = 0;
-            Session["Evaluation"] = 0;
+            Session["Evaluation"] = Guess.Result;
             Session["GuessRecord"] = Guess.guessRecord;
 
             return View(Guess);
@@ -61,11 +67,10 @@ namespace MVCAssignment.Controllers
             //Updates record with its Session
             Guess.guessRecord = (List<string>)Session["GuessRecord"];
 
-            //If choice is valid, add to record and update record Session
-            Session["Evaluation"] = Guess.AddToRec(
-                Guess,
-                (List<string>)Session["GuessRecord"],
-                (string)Session["Evaluation"]);
+            Session["Evaluation"] = Guess.ChoiceEvaluation(Guess, (int)Session["Random"]);
+
+            //If choice is valid, add to record and update record Session, otherwise give error message
+            Guess.AddToRec(Guess, (List<string>)Session["GuessRecord"]);
 
             return View(Guess);
         }

@@ -7,7 +7,7 @@
     Layout = "~/Views/Shared/_LayoutPage.cshtml";
 }
 
-<h2>Welcome to the Guessing Game!</h2>
+<h2>Welcome to the Guessing Game</h2>
 
 @using (Html.BeginForm(controllerName: "Features", actionName: "GuessingGame", method: FormMethod.Post))
 {
@@ -31,7 +31,7 @@
         Choice: @Html.EditorFor(Model => Model.NumChoice)
     </div>
 
-
+    <br />
 
     <div>
         @{
@@ -42,25 +42,49 @@
         Result: @Html.DisplayFor(Model => Model.Result)
     </div>
 
-    <br />
+
 
     <div>
         @{
             //Updates record with its session state
             Model.guessRecord = (List<string>)Session["GuessRecord"];
+
+            if (Model.wonGame == true)
+            {
+                //
+                //Cookieblabla = Model.guessRecord.Count
+                
+                //Clear guess record for new game round
+                Model.guessRecord.Clear();
+            }
+
         }
 
-        List: @Model.guessRecord.Count
-
-        @{
-            //Setting result to be displayed
-            Session["Evaluation"] = Model.ChoiceEvaluation(Model, Convert.ToInt16(Session["Random"]));
-        }
+        <br />
 
         <input type="submit" value="Guess" />
+
+        <br />
+        <br />
+
+        Guesses (@Model.guessRecord.Count):
+
+        <br />
+
+        @for (int i = 0; i < Model.guessRecord.Count; i++)
+        {
+            @Model.guessRecord.ElementAt(i)
+            @:<span>| </span>
+        }
+
     </div>
+
+
+
     <br />
-    <br />
+
+
+
     <div>
         @Html.ActionLink("New Game", "GuessingGame")
     </div>

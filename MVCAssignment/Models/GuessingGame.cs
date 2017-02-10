@@ -14,6 +14,9 @@ namespace MVCAssignment.Models
         public int NumChoice { get; set; }
         public int NumRand { get; set; }
         public List<string> guessRecord = new List<string>();
+        public bool wonGame = false;
+
+        //HttpCookie Highscore = new HttpCookie("Highscore");
 
         public Random rand = new Random();
 
@@ -23,23 +26,21 @@ namespace MVCAssignment.Models
             return num;
         }
 
-        public string ChoiceEvaluation(GuessingGame guessClass, int SessionVar)
+        public string ChoiceEvaluation(GuessingGame guessClass, int SessionRand)
         {
-            if (guessClass.NumChoice == SessionVar)
+            if (guessClass.NumChoice == SessionRand)
             {
                 guessClass.Result = "You got it right!";
+                wonGame = true;
+
             }
-            else if (guessClass.NumChoice < SessionVar)
+            else if (guessClass.NumChoice < SessionRand)
             {
-                guessClass.Result = "Close, but no dice. Your number was too small!";
+                guessClass.Result = "Sorry, your number was too small!";
             }
-            else if (guessClass.NumChoice > SessionVar)
+            else if (guessClass.NumChoice > SessionRand)
             {
                 guessClass.Result = "Shooting for the stars? Number was too big!";
-            }
-            else
-            {
-                guessClass.Result = "Something went wrong...";
             }
 
             //Gives a new random number
@@ -48,7 +49,7 @@ namespace MVCAssignment.Models
             return guessClass.Result;
         }
 
-        public string AddToRec(GuessingGame guessClass, List<string> sessionRec, string sessionEval)
+        public void AddToRec(GuessingGame guessClass, List<string> sessionRec)
         {
             if (NumChoice >= 1 && NumChoice <= 100)
             {
@@ -58,10 +59,8 @@ namespace MVCAssignment.Models
             //
             else
             {
-                sessionEval = "Oops! Your guess must be between 1 and 100!";
+                Result = "Oops! Your guess must be between 1 and 100!";
             }
-
-            return sessionEval;
         }
 
     }
