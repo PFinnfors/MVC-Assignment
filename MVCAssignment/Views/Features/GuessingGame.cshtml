@@ -11,14 +11,9 @@
 
 @using (Html.BeginForm(controllerName: "Features", actionName: "GuessingGame", method: FormMethod.Post))
 {
-
-
-
     <div>
-        @* Displays NumLabel *@
-        @Html.DisplayFor(Model => Model.NumLabel)
+        <p>Guess a number between 1-100!</p>
     </div>
-
 
 
     <div>
@@ -42,22 +37,10 @@
         Result: @Html.DisplayFor(Model => Model.Result)
     </div>
 
-
-
     <div>
         @{
-            //Updates record with its session state
+            //Updates record with its Session
             Model.guessRecord = (List<string>)Session["GuessRecord"];
-
-            if (Model.wonGame == true)
-            {
-                //
-                //Cookieblabla = Model.guessRecord.Count
-                
-                //Clear guess record for new game round
-                Model.guessRecord.Clear();
-            }
-
         }
 
         <br />
@@ -67,28 +50,32 @@
         <br />
         <br />
 
-        Guesses (@Model.guessRecord.Count):
+        Guesses(@Model.guessRecord.Count.ToString()):
 
         <br />
 
-        @for (int i = 0; i < Model.guessRecord.Count; i++)
-        {
-            @Model.guessRecord.ElementAt(i)
-            @:<span>| </span>
+        @{
+            for (int i = 0; i < Model.guessRecord.Count; i++)
+            {
+                @Model.guessRecord.ElementAt(i);
+                <span>| </span>
+            }
         }
 
     </div>
 
-
-
     <br />
-
-
 
     <div>
         @Html.ActionLink("New Game", "GuessingGame")
     </div>
 
+    <br />
 
+    <div>
+
+        @* Displays highscore *@
+        Highscore: @Request.Cookies["score"].Value
+    </div>
 
             }

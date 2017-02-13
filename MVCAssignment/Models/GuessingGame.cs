@@ -8,60 +8,98 @@ namespace MVCAssignment.Models
 {
     public class GuessingGame
     {
-        //
-        public string NumLabel { get; set; }
+        //Declaring variables
+        public List<string> guessRecord;
         public string Result { get; set; }
+        public Random rand;
+        public HttpCookie highscore;
+
         public int NumChoice { get; set; }
         public int NumRand { get; set; }
-        public List<string> guessRecord = new List<string>();
-        public bool wonGame = false;
+        public bool wonGame;
 
-        //HttpCookie Highscore = new HttpCookie("Highscore");
-
-        public Random rand = new Random();
-
-        public int NumRandomizer(int num)
+        //Initializing through constructor
+        public GuessingGame()
         {
-            num = rand.Next(1, 100);
-            return num;
+            Result = "Your result will show up here.";
+            wonGame = false;
+            NumChoice = 0;
+            NumRand = 0;
+            guessRecord = new List<string>();
+
+            rand = new Random();
         }
 
-        public string ChoiceEvaluation(GuessingGame guessClass, int SessionRand)
+        //Method to randomize input numbers
+        public int NumRandomizer()
         {
-            if (guessClass.NumChoice == SessionRand)
+            NumRand = rand.Next(1, 100);
+            return NumRand;
+        }
+
+        //Evaluates guess and returns result
+        public string ChoiceEvaluation(int SessionRand)
+        {
+            //If you win
+            if (NumChoice == SessionRand)
             {
-                guessClass.Result = "You got it right!";
+                Result = "You got it right! Guess again to continue playing.";
                 wonGame = true;
-
             }
-            else if (guessClass.NumChoice < SessionRand)
+            //Guess too low
+            else if (NumChoice < SessionRand)
             {
-                guessClass.Result = "Sorry, your number was too small!";
+                Result = "Sorry, your number was too small!";
             }
-            else if (guessClass.NumChoice > SessionRand)
+            //Guess too high
+            else if (NumChoice > SessionRand)
             {
-                guessClass.Result = "Shooting for the stars? Number was too big!";
+                Result = "Shooting for the stars? Number was too big!";
             }
 
-            //Gives a new random number
-            guessClass.NumRand = guessClass.NumRandomizer(guessClass.NumRand);
-
-            return guessClass.Result;
+            return Result;
         }
 
-        public void AddToRec(GuessingGame guessClass, List<string> sessionRec)
+        //Decides whether to add the guess to record or not
+        public List<string> AddToRec(List<string> guessRecord)
         {
+            //If choice is within margins, add it to record
             if (NumChoice >= 1 && NumChoice <= 100)
             {
                 guessRecord.Add(NumChoice.ToString());
-                sessionRec = guessRecord;
             }
-            //
+            //Error if input is invalid
             else
             {
                 Result = "Oops! Your guess must be between 1 and 100!";
             }
+
+            return guessRecord;
         }
 
+        //Selects highscore result
+        public string SetHighscore(string prevScore)
+        {
+            int prevScoreInt = Convert.ToInt16(prevScore);
+            string newScore = "0";
+
+            //Sets highscore first time (previous is zero)
+            if (prevScoreInt == 0)
+            {
+                newScore = guessRecord.Count.ToString();
+            }
+            //Sets new highscore if previous number is lower than the new
+            else if (guessRecord.Count < prevScoreInt)
+            {
+                newScore = guessRecord.Count.ToString();
+            }
+            //Echoes the score back if highscore wasn't achieved
+            else
+            {
+                newScore = prevScore;
+            }
+
+                return newScore;
+        }
     }
 }
