@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.ComponentModel.DataAnnotations;
 
 namespace MVCAssignment.Models
 {
@@ -32,8 +33,12 @@ namespace MVCAssignment.Models
 
         public List<string> viewList = new List<string>();
 
+        [Display(Name = "Search:")]
+        public string SearchString { get; set; }
+
         //METHODS-------------------
 
+        //
         public List<string> WriteLists()
         {
             List<string> writeList = new List<string>();
@@ -45,6 +50,18 @@ namespace MVCAssignment.Models
             writeList.AddRange(Person5);
 
             return writeList;
+        }
+
+        //
+        public void Filter(string SearchString)
+        {
+            
+        }
+
+        //
+        public void Sort()
+        {
+
         }
     }
 }

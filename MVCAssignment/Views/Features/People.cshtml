@@ -7,6 +7,16 @@
 
 <h2>People</h2>
 
+@using (Html.BeginForm(controllerName: "Features", actionName: "People", method: FormMethod.Post))
+{
+    @Html.DisplayNameFor(Model => Model.SearchString)
+    <br />
+    <input type="search" placeholder="filter" autofocus />
+    <input type="submit" />
+}
+
+<br />
+
 @* blabla *@
 <table border="1">
     @{
@@ -31,10 +41,7 @@
     }
 </table>
 
-@using (Html.BeginForm(controllerName: "Features", actionName: "People", method: FormMethod.Post))
-{
 
-}
 
 @using (Html.BeginForm(controllerName: "Features", actionName: "People", method: FormMethod.Post))
 {
