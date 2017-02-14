@@ -15,19 +15,25 @@ namespace MVCAssignment
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
-            //GuessingGame
+            //GET: People
+            routes.MapRoute(
+                name: "People",
+                url: "People",
+                defaults: new { Controller = "Features", action = "People" });
+
+            //GET: GuessingGame
             routes.MapRoute(
             name: "GuessingGame",
             url: "GuessingGame",
             defaults: new { controller = "Features", action = "GuessingGame" });
 
-            //FeverCheck
+            //GET: FeverCheck
             routes.MapRoute(
                 name: "FeverCheck",
                 url: "FeverCheck",
                 defaults: new { controller = "Features", action = "FeverCheck" });
 
-            //Home/Index
+            //GET: Home/Index
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",

@@ -102,5 +102,33 @@ namespace MVCAssignment.Controllers
 
             return View(Guess);
         }
+
+
+        // -------------------------------------------------------------------------------
+
+        [HttpGet]
+        public ActionResult People()
+        {
+            People people = new People();
+
+            people.viewList = people.WriteLists().ToList<string>();
+
+            return View(people);
+        }
+
+        [HttpPost]
+        public ActionResult People(People people)
+        {
+
+            return View(people);
+        }
+
+        //[HttpPost]
+        //public ActionResult People(People people)
+        //{
+
+        //    return View(people);
+        //}
+
     }
 }

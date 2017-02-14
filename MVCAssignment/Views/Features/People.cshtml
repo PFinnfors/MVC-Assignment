@@ -1,0 +1,42 @@
+﻿@model MVCAssignment.Models.People
+
+@{
+    ViewBag.Title = "People";
+    Layout = "~/Views/Shared/_LayoutPage.cshtml";
+}
+
+<h2>People</h2>
+
+@* blabla *@
+<table border="1">
+    @{
+        <tr>
+            <td>Name</td>
+
+            <td>Phone Number</td>
+
+            <td>City</td>
+        </tr>
+
+        for (int r = 0; r <= 14; r += 3)
+        {
+            @:
+            <tr>
+                @for (int e = 0; e <= 2; e++)
+                {
+                <td>@(Model.viewList[r+e])</td>
+                }
+            </tr>
+        }
+    }
+</table>
+
+@using (Html.BeginForm(controllerName: "Features", actionName: "People", method: FormMethod.Post))
+{
+
+}
+
+@using (Html.BeginForm(controllerName: "Features", actionName: "People", method: FormMethod.Post))
+{
+
+}

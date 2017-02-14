@@ -130,6 +130,7 @@
     <Compile Include="Models\FeverCheck.cs" />
     <Compile Include="Models\GuessingGame.cs" />
     <Compile Include="Models\Home.cs" />
+    <Compile Include="Models\People.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -144,6 +145,7 @@
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Features\FeverCheck.cshtml" />
     <Content Include="Views\Features\GuessingGame.cshtml" />
+    <Content Include="Views\Features\People.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
