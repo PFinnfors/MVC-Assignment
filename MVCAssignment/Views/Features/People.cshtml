@@ -7,11 +7,16 @@
 
 <h2>People</h2>
 
-@using (Html.BeginForm(controllerName: "Features", actionName: "People", method: FormMethod.Post))
+@using (Html.BeginForm(controllerName: "Features", actionName: "People", method: FormMethod.Get))
 {
-    @Html.DisplayNameFor(Model => Model.SearchString)
+    @Html.DisplayNameFor(m => m.SearchString)
     <br />
-    <input type="search" placeholder="filter" autofocus />
+
+    Model.caseSensitive = Convert.ToBoolean(Session["caseSensitive"]);
+
+    @Html.EditorFor(m => m.caseSensitive)
+    <br />
+    <input id="SearchString" name="SearchString" type="search" placeholder="filter">
     <input type="submit" />
 }
 
@@ -26,24 +31,31 @@
             <td>Phone Number</td>
 
             <td>City</td>
+
+            <td></td>
+
         </tr>
 
-        for (int r = 0; r <= 14; r += 3)
-        {
-            @:
+            for (int r = 0; r < Model.ViewList.Count; r++)
+            {
             <tr>
-                @for (int e = 0; e <= 2; e++)
+                @for (int d = 0; d < Model.ViewList[r].Count; d++)
                 {
-                <td>@(Model.viewList[r+e])</td>
+                    <td>
+                        @Html.DisplayFor(m => m.ViewList[r][d])
+                    </td>
                 }
+                <td>Remove</td>
             </tr>
         }
     }
 </table>
 
 
-
-@using (Html.BeginForm(controllerName: "Features", actionName: "People", method: FormMethod.Post))
+@*@using (Html.BeginForm(controllerName: "Features", actionName: "People", method: FormMethod.Post))
 {
-
-}
+    @Html.DisplayNameFor(m => m.AddString)
+    <br />
+    <input type="search" placeholder="filter" autofocus />
+    <input type="submit" />
+}*@
