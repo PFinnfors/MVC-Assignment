@@ -20,8 +20,6 @@ namespace MVCAssignment.Models
 
             ViewList = new List<List<string>>() { Person1, Person2, Person3, Person4, Person5 };
             ReferenceList = new List<List<string>>() { Person1, Person2, Person3, Person4, Person5 };
-
-            caseSensitive = true;
         }
 
         /* PROPERTIES-------------------
@@ -54,7 +52,8 @@ namespace MVCAssignment.Models
         public static List<string> Person4 { get; set; }
         public static List<string> Person5 { get; set; }
 
-        public List<List<string>> ViewList { get; set; }
+        public static List<List<string>> ViewList { get; set; }
+
         public List<List<string>> ReferenceList { get; set; }
 
         [Display(Name = "Search:")]
@@ -63,35 +62,16 @@ namespace MVCAssignment.Models
         [Display(Name = "Add person:")]
         public string AddString { get; set; }
 
-        public bool caseSensitive;
-
         //METHODS-------------------
 
         //
-        public void Search(People people)
+        public void Search(People people, People People)
         {
             //Skip filtering if search is null
             if (SearchString != null)
             {
 
-                if (caseSensitive)
-                {
                     //Selects lists from list which contain any strings with substring == SearchString
-                    var matchingvalues =
-                        from liLi in ViewList
-                        from li in liLi
-                        where li.Contains(SearchString)
-                        select liLi;
-
-                    //Creates new list-of-lists with identified list(s)
-                    List<List<string>> filteredList = new List<List<string>>(matchingvalues);
-
-                    //Clears list-of-lists and replaces with filtered list-of-lists
-                    ViewList.Clear();
-                    ViewList = filteredList;
-                }
-                else
-                {
                     var matchingvalues =
                         from liLi in ViewList
                         from li in liLi
@@ -104,7 +84,6 @@ namespace MVCAssignment.Models
                     //Clears list-of-lists and replaces with filtered list-of-lists
                     ViewList.Clear();
                     ViewList = filteredList;
-                }
             }    
         }
 

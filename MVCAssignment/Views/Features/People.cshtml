@@ -11,11 +11,6 @@
 {
     @Html.DisplayNameFor(m => m.SearchString)
     <br />
-
-    Model.caseSensitive = Convert.ToBoolean(Session["caseSensitive"]);
-
-    @Html.EditorFor(m => m.caseSensitive)
-    <br />
     <input id="SearchString" name="SearchString" type="search" placeholder="filter">
     <input type="submit" />
 }
@@ -36,16 +31,18 @@
 
         </tr>
 
-            for (int r = 0; r < Model.ViewList.Count; r++)
+            for (int r = 0; r < MVCAssignment.Models.People.ViewList.Count; r++)
             {
             <tr>
-                @for (int d = 0; d < Model.ViewList[r].Count; d++)
+                @for (int d = 0; d < MVCAssignment.Models.People.ViewList[r].Count; d++)
                 {
                     <td>
-                        @Html.DisplayFor(m => m.ViewList[r][d])
+                        @MVCAssignment.Models.People.ViewList[r][d]
                     </td>
                 }
-                <td>Remove</td>
+                <td>
+                    @Html.ActionLink("Remove", "People", new { remove = r } )
+                </td>
             </tr>
         }
     }

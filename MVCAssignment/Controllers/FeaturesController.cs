@@ -110,26 +110,21 @@ namespace MVCAssignment.Controllers
 
         //GET: People
         [HttpGet]
-        public ActionResult People(People people)
+        public ActionResult People(People people, People People, int? remove = null )
         {
-            Session["caseSensitive"] = people.caseSensitive;
 
             //Resets ViewList before potentially filtering to avoid snowball effect
-            people.ViewList = people.ReferenceList;
+            People.ViewList = people.ReferenceList;
+
+            if (remove != null)
+            {
+                People.ViewList.RemoveAt((int)(remove));
+            }
 
             //Filters ViewList if SearchString isn't null
-            people.Search(people);
+            people.Search(people, People);
 
             return View(people);
         }
-
-        //POST: Add Method
-        //[HttpPost]
-        //public ActionResult People(People people)
-        //{
-
-        //    return View(people);
-        //}
-
     }
 }
