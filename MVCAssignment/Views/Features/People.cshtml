@@ -48,11 +48,37 @@
     }
 </table>
 
+<br />
 
-@*@using (Html.BeginForm(controllerName: "Features", actionName: "People", method: FormMethod.Post))
+@using (Html.BeginForm(controllerName: "Features", actionName: "People", method: FormMethod.Post))
 {
-    @Html.DisplayNameFor(m => m.AddString)
+    <label style="font-weight:bold">Add person:</label>
+
     <br />
-    <input type="search" placeholder="filter" autofocus />
+    <br />
+
+    @Html.DisplayNameFor(m => m.AddName)
+    <br />
+    @Html.EditorFor(m => m.AddName)
+
+    <br />
+
+    @Html.DisplayNameFor(m => m.AddPhone)
+    <br />
+    @Html.EditorFor(m => m.AddPhone)
+
+    <br />
+
+    @Html.DisplayNameFor(m => m.AddCity)
+    <br />
+    @Html.EditorFor(m => m.AddCity)
+
+    <br />
+
+    @:<span style="color:red">
+        @Html.DisplayFor(m => m.ErrorMsg)
+    @:</span>
+
+    <br />
     <input type="submit" />
-}*@
+}

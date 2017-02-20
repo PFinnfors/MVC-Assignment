@@ -20,6 +20,8 @@ namespace MVCAssignment.Models
 
             ViewList = new List<List<string>>() { Person1, Person2, Person3, Person4, Person5 };
             ReferenceList = new List<List<string>>() { Person1, Person2, Person3, Person4, Person5 };
+
+            ErrorMsg = " ";
         }
 
         /* PROPERTIES-------------------
@@ -53,19 +55,29 @@ namespace MVCAssignment.Models
         public static List<string> Person5 { get; set; }
 
         public static List<List<string>> ViewList { get; set; }
+        public static List<List<string>> ReferenceList { get; set; }
 
-        public List<List<string>> ReferenceList { get; set; }
-
-        [Display(Name = "Search:")]
+        [Display(Name = "Search: ")]
         public string SearchString { get; set; }
 
-        [Display(Name = "Add person:")]
-        public string AddString { get; set; }
+        [Required(ErrorMessage = "Name required!")]
+        [Display(Name = "Name: ")]
+        public string AddName { get; set; }
+
+        [Required(ErrorMessage = "Phone number required!")]
+        [Display(Name = "Phone number: ")]
+        public string AddPhone { get; set; }
+
+        [Required(ErrorMessage = "City required!")]
+        [Display(Name = "City: ")]
+        public string AddCity { get; set; }
+
+        public string ErrorMsg { get; set; }
 
         //METHODS-------------------
 
         //
-        public void Search(People people, People People)
+        public void Search(People People, People people)
         {
             //Skip filtering if search is null
             if (SearchString != null)
@@ -87,13 +99,20 @@ namespace MVCAssignment.Models
             }    
         }
 
-        //
-        public List<string> Add(People people, string name, string phoneNum, string city)
+        //Method for building new person list and adding it
+        public void Add(People people)
         {
-            List<string> test = new List<string>();
+            //Prepares a list
+            List<string> newPerson = new List<string>();
 
+            //Puts together data into the list
+            newPerson.Add(people.AddName);
+            newPerson.Add(people.AddPhone);
+            newPerson.Add(people.AddCity);
 
-            return test;
+            //Adds list to the end result list-of-lists
+            ViewList.Add(newPerson);
+            ReferenceList.Add(newPerson);
         }
     }
 }

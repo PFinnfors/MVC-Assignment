@@ -32,7 +32,7 @@ namespace MVCAssignment.Controllers
             return View(Fever);
         }
 
-        
+
         // -------------------------------------------------------------------------------
         //GUESSING GAME
 
@@ -49,7 +49,7 @@ namespace MVCAssignment.Controllers
                 Guess.highscore = new HttpCookie("score", "0");
                 Guess.highscore.Expires = DateTime.Now.AddDays(1);
                 Response.Cookies.Add(Guess.highscore);
-            }  
+            }
 
             //Gives NumRand a random number, will be hidden from user
             Guess.NumRand = Guess.NumRandomizer();
@@ -110,19 +110,47 @@ namespace MVCAssignment.Controllers
 
         //GET: People
         [HttpGet]
-        public ActionResult People(People people, People People, int? remove = null )
+        public ActionResult People(People People, People people, int? remove = null)
         {
 
-            //Resets ViewList before potentially filtering to avoid snowball effect
-            People.ViewList = people.ReferenceList;
+            //Updates reference list-of-lists if a saved session of it exists
+            if ((List<List<string>>)(Session["ReferenceList"]) != null)
+            {
+                People.ReferenceList = (List<List<string>>)(Session["ReferenceList"]);
+            }
 
+            //Resets ViewList with reference for consistency
+            People.ViewList = People.ReferenceList;
+
+            //If optional int was passed into Action, trigger row removal of the suggested index
             if (remove != null)
             {
                 People.ViewList.RemoveAt((int)(remove));
+                People.ReferenceList.RemoveAt((int)(remove));
             }
 
             //Filters ViewList if SearchString isn't null
-            people.Search(people, People);
+            people.Search(People, people);
+
+            return View(people);
+        }
+
+        [HttpPost]
+        public ActionResult People(People People, People people)
+        {
+            //Only if the entire form is filled out
+            if (people.AddName != null && people.AddPhone != null && people.AddCity != null)
+            {
+                //Method that builds a new person list and adds it to the collection, based on form inputs
+                people.Add(people);
+
+                //Saves current list-of-lists into a session state
+                Session["ReferenceList"] = People.ReferenceList;
+            }
+            else
+            {
+                people.ErrorMsg = "All fields are required!";
+            }
 
             return View(people);
         }
