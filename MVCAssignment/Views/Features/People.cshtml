@@ -17,36 +17,18 @@
 
 <br />
 
+<div style="font-weight:bold; background-color:lightgrey; border-bottom:1px solid black">
+    <span style="display:inline-block; width:200px"><span>Name</span></span>
+    <span style="display:inline-block; width:200px">Phone number</span>
+    <span style="display:inline-block">City</span>
+</div>
+<br />
+
 @* blabla *@
-<table border="1">
-    @{
-        <tr>
-            <td>Name</td>
-
-            <td>Phone Number</td>
-
-            <td>City</td>
-
-            <td></td>
-
-        </tr>
-
-            for (int r = 0; r < MVCAssignment.Models.People.ViewList.Count; r++)
-            {
-            <tr>
-                @for (int d = 0; d < MVCAssignment.Models.People.ViewList[r].Count; d++)
-                {
-                    <td>
-                        @MVCAssignment.Models.People.ViewList[r][d]
-                    </td>
-                }
-                <td>
-                    @Html.ActionLink("Remove", "People", new { remove = r } )
-                </td>
-            </tr>
-        }
-    }
-</table>
+@for (int r = 0; r < MVCAssignment.Models.People.PeopleList.Count; r++)
+{
+    Html.RenderAction("_PartialItem", new { partNum = r });
+}
 
 <br />
 
@@ -75,9 +57,10 @@
 
     <br />
 
-    @:<span style="color:red">
+    <span style="color:red">
         @Html.DisplayFor(m => m.ErrorMsg)
-    @:</span>
+    </span>
+
 
     <br />
     <input type="submit" />

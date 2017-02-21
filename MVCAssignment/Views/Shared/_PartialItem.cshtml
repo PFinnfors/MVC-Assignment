@@ -1,0 +1,26 @@
+﻿
+
+<style>
+    span {
+        width: 200px;
+    }
+</style>
+
+<div style="background-color:lightslategray; border-bottom:1px solid black">
+    <div style="display:inline">
+
+        @for (int d = 0; d < MVCAssignment.Models.People.PeopleList[Model.PartialNum].Count; d++)
+        {
+            <span style="display:inline-block">
+                <label>@MVCAssignment.Models.People.PeopleList[Model.PartialNum][d]</label>
+            </span>
+        }
+
+        <span style="display:inline-block">
+            @Html.ActionLink("Remove", "People", new { remove = Model.PartialNum })
+        </span>
+
+    </div>
+</div>
+
+<br />

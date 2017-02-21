@@ -146,6 +146,7 @@
     <Content Include="Views\Features\FeverCheck.cshtml" />
     <Content Include="Views\Features\GuessingGame.cshtml" />
     <Content Include="Views\Features\People.cshtml" />
+    <Content Include="Views\Shared\_PartialItem.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>

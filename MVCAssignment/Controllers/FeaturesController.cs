@@ -113,39 +113,50 @@ namespace MVCAssignment.Controllers
         public ActionResult People(People People, People people, int? remove = null)
         {
 
-            //Updates reference list-of-lists if a saved session of it exists
-            if ((List<List<string>>)(Session["ReferenceList"]) != null)
-            {
-                People.ReferenceList = (List<List<string>>)(Session["ReferenceList"]);
-            }
-
             //Resets ViewList with reference for consistency
-            People.ViewList = People.ReferenceList;
+            People.PeopleList = People.ReferenceList;
 
             //If optional int was passed into Action, trigger row removal of the suggested index
-            if (remove != null)
+            if(remove != null)
             {
-                People.ViewList.RemoveAt((int)(remove));
-                People.ReferenceList.RemoveAt((int)(remove));
+                people.RemovePerson(remove);
             }
-
+            
             //Filters ViewList if SearchString isn't null
             people.Search(People, people);
+
+            //Saving list-of-lists into a session
+            Session["People"] = People.PeopleList;
 
             return View(people);
         }
 
+        //GET: _PartialItem
+        public ActionResult _PartialItem(People People, People people, int? partNum = null)
+        {
+            //Gets the updated values from session state
+            People.PeopleList = (List<List<string>>)(Session["People"]);
+
+            //
+            if (partNum != 0)
+            {
+                people.PartialNum = (int)(partNum);
+            }
+
+            return PartialView(people);
+        }
+
+        //POST: People
         [HttpPost]
         public ActionResult People(People People, People people)
         {
             //Only if the entire form is filled out
             if (people.AddName != null && people.AddPhone != null && people.AddCity != null)
             {
+
                 //Method that builds a new person list and adds it to the collection, based on form inputs
                 people.Add(people);
 
-                //Saves current list-of-lists into a session state
-                Session["ReferenceList"] = People.ReferenceList;
             }
             else
             {
