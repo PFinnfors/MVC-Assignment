@@ -7,7 +7,7 @@
 
 <h2>People</h2>
 
-@using (Html.BeginForm(controllerName: "Features", actionName: "People", method: FormMethod.Get))
+@using (Html.BeginForm("People", "Features", FormMethod.Get))
 {
     @Html.DisplayNameFor(m => m.SearchString)
     <br />
@@ -30,7 +30,6 @@
     Html.RenderAction("_PartialItem", new { partNum = r });
 }
 
-<br />
 
 @using (Html.BeginForm(controllerName: "Features", actionName: "People", method: FormMethod.Post))
 {
@@ -64,4 +63,9 @@
 
     <br />
     <input type="submit" />
+
+    <span style="color:red">
+        @Html.DisplayFor(m => m.ErrorMsg)
+    </span>
+
 }

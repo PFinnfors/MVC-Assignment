@@ -112,21 +112,25 @@ namespace MVCAssignment.Controllers
         [HttpGet]
         public ActionResult People(People People, People people, int? remove = null)
         {
+            //Loads lists from session states only if the states have been created
+            people.UpdateStates( (List<List<string>>)(Session["People"]),
+                ((List<List<string>>)(Session["Reference"])) );
 
-            //Resets ViewList with reference for consistency
+            //Resets list of people after a search to get the full list again
             People.PeopleList = People.ReferenceList;
 
-            //If optional int was passed into Action, trigger row removal of the suggested index
-            if(remove != null)
+            //If optional remove index was passed into Action, trigger row removal of that index
+            if (remove != null)
             {
                 people.RemovePerson(remove);
             }
-            
-            //Filters ViewList if SearchString isn't null
+
+            //Narrows down PeopleList based on SearchString then updates inside method
             people.Search(People, people);
 
-            //Saving list-of-lists into a session
+            //Saving lists into their sessions
             Session["People"] = People.PeopleList;
+            Session["Reference"] = People.ReferenceList;
 
             return View(people);
         }
@@ -153,9 +157,16 @@ namespace MVCAssignment.Controllers
             //Only if the entire form is filled out
             if (people.AddName != null && people.AddPhone != null && people.AddCity != null)
             {
+                //Loads from session state to keep previous changes
+                People.PeopleList = (List<List<string>>)(Session["People"]);
+                People.ReferenceList = People.PeopleList;
 
                 //Method that builds a new person list and adds it to the collection, based on form inputs
                 people.Add(people);
+
+                //Updates session states to add permanently throughout session
+                Session["People"] = People.PeopleList;
+                Session["Reference"] = People.ReferenceList;
 
             }
             else

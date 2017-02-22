@@ -78,25 +78,50 @@ namespace MVCAssignment.Models
 
         //METHODS-------------------
 
-        //
+        /*Selects anything if SearchString is null, else finds a substring match and selects parent.
+            Not perfect since it will select a list up to 3 times if there are 3 different matches in one list,
+            but it will do for now.*/
         public void Search(People People, People people)
         {
-            //Skip filtering if search is null
-            if (SearchString != null)
+            if (SearchString == null)
             {
-
-                //Selects lists from list which contain any strings with substring == SearchString
+                //Find any sublists at all
                 var matchingvalues =
-                    from liLi in PeopleList
-                    from li in liLi
-                    where li.ToLower().Contains(SearchString.ToLower())
-                    select liLi;
+                    from li in PeopleList
+                    select li;
 
-                //Creates new list-of-lists with identified list(s)
+                //Creates new list-of-lists with the selection
                 List<List<string>> filteredList = new List<List<string>>(matchingvalues);
 
-                //Clears list-of-lists and replaces with filtered list-of-lists
+                //Replaces main list-of-lists with the final filtered list-of-lists
                 PeopleList = filteredList;
+            }
+            else
+            {
+                //Finds sublist within the list-of-lists
+                var matchingvalues =
+                from li in PeopleList
+                from str in li
+
+                    //where the searched string in lowercase equals the lowercased SearchString
+                where str.ToLowerInvariant().Contains(SearchString.ToLowerInvariant())
+                select li;
+
+                //Creates new list-of-lists with the selection
+                List<List<string>> filteredList = new List<List<string>>(matchingvalues);
+
+                //Replaces main list-of-lists with the final filtered list-of-lists
+                PeopleList = filteredList;
+            }
+        }
+
+        //Function to call with session states to load them into the current states
+        public void UpdateStates(List<List<string>> people, List<List<string>> reference)
+        {
+            if (people != null && reference != null)
+            {
+                PeopleList = people;
+                ReferenceList = reference;
             }
         }
 
@@ -111,21 +136,16 @@ namespace MVCAssignment.Models
             newPerson.Add(people.AddPhone);
             newPerson.Add(people.AddCity);
 
-            //Adds list to the end result list-of-lists
-            //PeopleList = ReferenceList;
-            PeopleList.Add(newPerson);
+            //Adds to list permanently
+            ReferenceList.Add(newPerson);
         }
 
         public void RemovePerson(int? removed)
         {
             if (removed != null)
             {
-                People.PeopleList.RemoveAt((int)(removed));
-
-                if (People.PeopleList.Count < ReferenceList.Count)
-                {
-                    ReferenceList.RemoveAt((int)(removed));
-                }
+                //
+                People.ReferenceList.RemoveAt((int)(removed));
             }
         }
     }
