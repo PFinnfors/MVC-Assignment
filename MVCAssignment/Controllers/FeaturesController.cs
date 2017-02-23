@@ -147,6 +147,11 @@ namespace MVCAssignment.Controllers
                 people.PartialNum = (int)(partNum);
             }
 
+            if (Request.IsAjaxRequest())
+            {
+                return PartialView("_PartialItem", people);
+            }
+
             return PartialView(people);
         }
 

@@ -7,15 +7,27 @@
 
 <h2>People</h2>
 
-@using (Html.BeginForm("People", "Features", FormMethod.Get))
+@*--SEARCH FORM---------------------------------------------------------------------------------*@
+
+@* Uses AJAX HttpGet form to search / filter *@
+@using (Ajax.BeginForm(ajaxOptions: new AjaxOptions
 {
+    //AJAX specifications
+    HttpMethod = "Get",
+    InsertionMode = InsertionMode.Replace,
+    UpdateTargetId = "pList"
+}, controllerName: "Features", actionName: "_PartialItem"))
+{
+    //Html content
     @Html.DisplayNameFor(m => m.SearchString)
     <br />
     <input id="SearchString" name="SearchString" type="search" placeholder="filter">
-    <input type="submit" />
+    <input type="submit" value="search" />
 }
 
 <br />
+
+@*--LIST OF PEOPLE---------------------------------------------------------------------------------*@
 
 <div style="font-weight:bold; background-color:lightgrey; border-bottom:1px solid black">
     <span style="display:inline-block; width:200px"><span>Name</span></span>
@@ -24,12 +36,15 @@
 </div>
 <br />
 
-@* blabla *@
-@for (int r = 0; r < MVCAssignment.Models.People.PeopleList.Count; r++)
-{
-    Html.RenderAction("_PartialItem", new { partNum = r });
-}
+@* Div for inserting with AJAX *@
+<div id="pList">
+    @for (int r = 0; r < MVCAssignment.Models.People.PeopleList.Count; r++)
+    {
+        Html.RenderAction("_PartialItem", new { partNum = r });
+    }
+</div>
 
+@*--ADD FORM---------------------------------------------------------------------------------*@
 
 @using (Html.BeginForm(controllerName: "Features", actionName: "People", method: FormMethod.Post))
 {

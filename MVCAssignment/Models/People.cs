@@ -27,6 +27,9 @@ namespace MVCAssignment.Models
         /* PROPERTIES-------------------
          * NAME - PHONE NUMBER - CITY */
 
+
+
+
         //Emma Svenson
         private string Name1 { get; set; } = "Emma Svenson";
         private string Phone1 { get; set; } = "202-555-0107";
@@ -149,4 +152,24 @@ namespace MVCAssignment.Models
             }
         }
     }
+
+    //public class Pple : ICollection<Pple>
+    //{
+    //    public string Name { get; set; }
+    //    public string Phone { get; set; }
+    //    public string City { get; set; }
+
+    //    // Implementation of IEquatable<T> interface
+    //    public bool Equals(Pple pple)
+    //    {
+    //        if (this.Name == pple.Name &&
+    //            this.Phone == pple.Phone &&
+    //            this.City == pple.City)
+    //        {
+    //            return true;
+    //        }
+    //        else
+    //            return false;
+    //    }
+    //}
 }
