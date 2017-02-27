@@ -13,7 +13,7 @@
 @using (Ajax.BeginForm(ajaxOptions: new AjaxOptions
 {
     //AJAX specifications
-    HttpMethod = "Get",
+    HttpMethod = "GET",
     InsertionMode = InsertionMode.Replace,
     UpdateTargetId = "pList"
 }, controllerName: "Features", actionName: "_PartialItem"))
@@ -36,12 +36,11 @@
 </div>
 <br />
 
-@* Div for inserting with AJAX *@
+@* Div for replacing with AJAX *@
 <div id="pList">
-    @for (int r = 0; r < MVCAssignment.Models.People.PeopleList.Count; r++)
-    {
-        Html.RenderAction("_PartialItem", new { partNum = r });
-    }
+    @Html.Action(actionName: "_PartialItem",
+    controllerName: "Features",
+    routeValues: new { id = Model.Id })
 </div>
 
 @*--ADD FORM---------------------------------------------------------------------------------*@
@@ -82,5 +81,21 @@
     <span style="color:red">
         @Html.DisplayFor(m => m.ErrorMsg)
     </span>
+
+    @* AJAX HttpPost form to add people *@
+    @using (Ajax.BeginForm(ajaxOptions: new AjaxOptions
+    {
+        //AJAX specifications
+        HttpMethod = "POST",
+        InsertionMode = InsertionMode.InsertAfter,
+        UpdateTargetId = "pList"
+    }, controllerName: "Features", actionName: "_PartialItem"))
+    {
+        //Html content
+        @Html.DisplayNameFor(m => m.SearchString)
+        <br />
+        <input id="SearchString" name="SearchString" type="search" placeholder="filter">
+        <input type="submit" value="search" />
+    }
 
 }

@@ -110,20 +110,18 @@ namespace MVCAssignment.Controllers
 
         //GET: People
         [HttpGet]
-        public ActionResult People(People People, People people, int? remove = null)
+        public ActionResult People(People People, People people)
         {
             //Loads lists from session states only if the states have been created
-            people.UpdateStates( (List<List<string>>)(Session["People"]),
-                ((List<List<string>>)(Session["Reference"])) );
+            people.UpdateStates((List<List<string>>)(Session["People"]),
+                ((List<List<string>>)(Session["Reference"])));
+
 
             //Resets list of people after a search to get the full list again
             People.PeopleList = People.ReferenceList;
 
             //If optional remove index was passed into Action, trigger row removal of that index
-            if (remove != null)
-            {
-                people.RemovePerson(remove);
-            }
+            
 
             //Narrows down PeopleList based on SearchString then updates inside method
             people.Search(People, people);
@@ -136,50 +134,15 @@ namespace MVCAssignment.Controllers
         }
 
         //GET: _PartialItem
-        public ActionResult _PartialItem(People People, People people, int? partNum = null)
+        public PartialViewResult _PartialItem(People People, People people, int id)
         {
-            //Gets the updated values from session state
-            People.PeopleList = (List<List<string>>)(Session["People"]);
-
-            //
-            if (partNum != 0)
-            {
-                people.PartialNum = (int)(partNum);
-            }
-
-            if (Request.IsAjaxRequest())
-            {
-                return PartialView("_PartialItem", people);
-            }
+            List<List<string>> pple = ((List<List<string>>)Session["People"]);
 
             return PartialView(people);
         }
 
-        //POST: People
-        [HttpPost]
-        public ActionResult People(People People, People people)
-        {
-            //Only if the entire form is filled out
-            if (people.AddName != null && people.AddPhone != null && people.AddCity != null)
-            {
-                //Loads from session state to keep previous changes
-                People.PeopleList = (List<List<string>>)(Session["People"]);
-                People.ReferenceList = People.PeopleList;
 
-                //Method that builds a new person list and adds it to the collection, based on form inputs
-                people.Add(people);
+        //POST: _PartialItem
 
-                //Updates session states to add permanently throughout session
-                Session["People"] = People.PeopleList;
-                Session["Reference"] = People.ReferenceList;
-
-            }
-            else
-            {
-                people.ErrorMsg = "All fields are required!";
-            }
-
-            return View(people);
-        }
     }
 }
