@@ -109,40 +109,80 @@ namespace MVCAssignment.Controllers
         People people = new People();
 
         //GET: People
-        [HttpGet]
         public ActionResult People(People People, People people)
         {
             //Loads lists from session states only if the states have been created
-            people.UpdateStates((List<List<string>>)(Session["People"]),
-                ((List<List<string>>)(Session["Reference"])));
-
+            people.LoadStates((List<List<string>>)(Session["People"]),
+                ((List<List<string>>)(Session["Reference"])),
+                (int?)(Session["Row"]));
 
             //Resets list of people after a search to get the full list again
-            People.PeopleList = People.ReferenceList;
-
-            //If optional remove index was passed into Action, trigger row removal of that index
-            
-
-            //Narrows down PeopleList based on SearchString then updates inside method
-            people.Search(People, people);
+            People.PeopleData = People.PeopleRefData;
 
             //Saving lists into their sessions
-            Session["People"] = People.PeopleList;
-            Session["Reference"] = People.ReferenceList;
+            Session["Reference"] = People.PeopleRefData;
+            Session["People"] = People.PeopleData;
 
             return View(people);
         }
 
         //GET: _PartialItem
-        public PartialViewResult _PartialItem(People People, People people, int id)
+        [HttpGet]
+        public PartialViewResult _PartialItem(People People, People people, int? rowId = null)
         {
-            List<List<string>> pple = ((List<List<string>>)Session["People"]);
+            //Loads lists from session states only if the states have been created
+            people.LoadStates((List<List<string>>)(Session["People"]),
+                ((List<List<string>>)(Session["Reference"])),
+                (int?)(Session["Row"]));
+
+            //Narrows down PeopleList based on SearchString then updates inside method
+            people.Search(People, people);
+
+
+
+            //When true, ActionMethod has been called from View with a row id argument
+            if (rowId != null)
+            {
+                //Stores row id from View to send into PartialView...
+                ViewBag.row = (int)(rowId);
+            }
+
+
+
+            //Saving lists into their sessions
+            Session["Reference"] = People.PeopleRefData;
+            Session["People"] = People.PeopleData;
 
             return PartialView(people);
         }
 
 
         //POST: _PartialItem
+        [HttpPost]
+        public PartialViewResult _PartialItem(People People, People people)
+        {
 
+            return PartialView(people);
+        }
+
+        //GET: _PartialEdit
+        [HttpGet]
+        public PartialViewResult _PartialEdit(People people)
+        {
+
+            return PartialView(people);
+        }
+
+        //POST: _PartialEdit
+        [HttpPost]
+        public PartialViewResult _PartialEdit(People people, bool placeholder = false)
+        {
+            if (ModelState.IsValid)
+            {
+                return PartialView("_PartialItem", people);
+            }
+
+            return PartialView(people);
+        }
     }
 }

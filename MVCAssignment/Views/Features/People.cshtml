@@ -16,12 +16,12 @@
     HttpMethod = "GET",
     InsertionMode = InsertionMode.Replace,
     UpdateTargetId = "pList"
-}, controllerName: "Features", actionName: "_PartialItem"))
+}, controllerName: "Features", actionName: "_PartialItem", routeValues: new { ajaxUpdate = true }))
 {
     //Html content
     @Html.DisplayNameFor(m => m.SearchString)
     <br />
-    <input id="SearchString" name="SearchString" type="search" placeholder="filter">
+    @Html.EditorFor(m => m.SearchString)
     <input type="submit" value="search" />
 }
 
@@ -32,16 +32,21 @@
 <div style="font-weight:bold; background-color:lightgrey; border-bottom:1px solid black">
     <span style="display:inline-block; width:200px"><span>Name</span></span>
     <span style="display:inline-block; width:200px">Phone number</span>
-    <span style="display:inline-block">City</span>
+    <span style="display:inline-block; width:200px">City</span>
+    <span style="display:inline-block">Edit</span>
 </div>
 <br />
 
-@* Div for replacing with AJAX *@
-<div id="pList">
-    @Html.Action(actionName: "_PartialItem",
-    controllerName: "Features",
-    routeValues: new { id = Model.Id })
-</div>
+@* For each property / row in PeopleData *@
+@for (int r = 0; r < MVCAssignment.Models.People.PeopleData.Count; r++)
+{
+
+    @* Div for replacing with AJAX *@
+    <div id="pList">
+        @Html.Action(actionName: "_PartialItem", routeValues: new { row = r })
+    </div>
+
+}
 
 @*--ADD FORM---------------------------------------------------------------------------------*@
 
@@ -82,20 +87,20 @@
         @Html.DisplayFor(m => m.ErrorMsg)
     </span>
 
-    @* AJAX HttpPost form to add people *@
-    @using (Ajax.BeginForm(ajaxOptions: new AjaxOptions
-    {
-        //AJAX specifications
-        HttpMethod = "POST",
-        InsertionMode = InsertionMode.InsertAfter,
-        UpdateTargetId = "pList"
-    }, controllerName: "Features", actionName: "_PartialItem"))
+}
+
+@* AJAX HttpPost form to add people *@
+@Ajax.BeginForm(ajaxOptions: new AjaxOptions
+{
+    //AJAX specifications
+    HttpMethod = "POST",
+    InsertionMode = InsertionMode.InsertAfter,
+    UpdateTargetId = "pList"
+}, controllerName: "Features", actionName: "_PartialItem")
     {
         //Html content
-        @Html.DisplayNameFor(m => m.SearchString)
-        <br />
-        <input id="SearchString" name="SearchString" type="search" placeholder="filter">
-        <input type="submit" value="search" />
+@Html.DisplayNameFor(m => m.SearchString)
+<br />
+<input id="SearchString" name="SearchString" type="search" placeholder="filter">
+<input type="submit" value="search" />
     }
-
-}

@@ -3,30 +3,32 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.ComponentModel.DataAnnotations;
+using System.Web.Mvc;
 
 namespace MVCAssignment.Models
 {
-
+    [Bind(Include = "AddName, AddPhone, AddCity")]
     public class People
     {
 
-        #region DATABASE LISTS
+        #region DATABASE
 
         //Creates a static collection to refer to as the actual list of people
         public static List<List<string>> PeopleRefData { get; set; } = new List<List<string>>()
         {
-            //Initializes the default people
-            new List<string> { "Emma Svenson", "202-555-0107", "San Francisco", "0" },
-            new List<string> { "Arnold Jonsson", "202-555-0162", "San Diego", "1" },
-            new List<string> { "Yumi Waterman", "202-555-0175", "Seattle", "2" },
-            new List<string> { "Bluma Finnin", "202-555-0147", "Nashville", "3" },
-            new List<string> { "Levon Ferro", "202-555-0190", "New York", "4" }
+            /* Initializes the default people
+            NAME, PHONE NUMBER, CITY */
+            new List<string> { "Emma Svenson", "202-555-0107", "San Francisco" },
+            new List<string> { "Arnold Jonsson", "202-555-0162", "San Diego" },
+            new List<string> { "Yumi Waterman", "202-555-0175", "Seattle" },
+            new List<string> { "Bluma Finnin", "202-555-0147", "Nashville" },
+            new List<string> { "Levon Ferro", "202-555-0190", "New York" }
         };
 
         //Copies the previous list content to a new "working"-list for displaying people
         public static List<List<string>> PeopleData { get; set; } = new List<List<string>>(PeopleRefData);
 
-        #endregion DATABASE LISTS
+        #endregion DATABASE
 
         #region FORM PROPS
 
@@ -44,6 +46,8 @@ namespace MVCAssignment.Models
 
         public string ErrorMsg { get; set; }
 
+        public int RowNum { get; set; }
+
         #endregion FORM PROPS
 
         #region LOGIC METHODS
@@ -53,47 +57,49 @@ namespace MVCAssignment.Models
             but it will do for now.*/
         public void Search(People People, People people)
         {
-            if (SearchString == null)
+            if (SearchString != null)
             {
-                //Find any sublists at all
+                //Mines out the relevant sources within the master list
                 var matchingvalues =
-                    from li in PeopleList
+                from li in PeopleData
+                from str in li
+
+                    //where at least one substring in lowercase equals the lowercased SearchString
+                    where str.ToLowerInvariant().Contains(SearchString.ToLowerInvariant())
+                    //Selects the parent list of such a string
                     select li;
 
-                //Creates new list-of-lists with the selection
-                List<List<string>> filteredList = new List<List<string>>(matchingvalues);
-
                 //Replaces main list-of-lists with the final filtered list-of-lists
-                PeopleList = filteredList;
-
-                //Change PartialNum to index?
+                PeopleData = new List<List<string>>(matchingvalues);
             }
             else
             {
-                //Finds sublist within the list-of-lists
+                //Find any sublists at all
                 var matchingvalues =
-                from li in PeopleList
-                from str in li
-
-                    //where the searched string in lowercase equals the lowercased SearchString
-                where str.ToLowerInvariant().Contains(SearchString.ToLowerInvariant())
-                select li;
-
-                //Creates new list-of-lists with the selection
-                List<List<string>> filteredList = new List<List<string>>(matchingvalues);
+                    from li in PeopleData
+                    select li;
 
                 //Replaces main list-of-lists with the final filtered list-of-lists
-                PeopleList = filteredList;
+                PeopleData = new List<List<string>>(matchingvalues);
             }
         }
 
-        //Function to call with session states to load them into the current states
-        public void UpdateStates(List<List<string>> people, List<List<string>> reference)
+        //Function to call with session states to load them into the current states (if they're not null)
+        public void LoadStates(List<List<string>> people, List<List<string>> reference, int? row)
         {
-            if (people != null && reference != null)
+            if (people != null)
             {
-                PeopleList = people;
-                ReferenceList = reference;
+                PeopleData = people;
+            }
+
+            if (reference != null)
+            {
+                PeopleRefData = reference;
+            }
+
+            if (row != null)
+            {
+                RowNum = (int)(row);
             }
         }
 
@@ -109,7 +115,7 @@ namespace MVCAssignment.Models
             newPerson.Add(people.AddCity);
 
             //Adds to list permanently
-            ReferenceList.Add(newPerson);
+            PeopleRefData.Add(newPerson);
         }
 
         public void RemovePerson(int? removed)
@@ -117,7 +123,7 @@ namespace MVCAssignment.Models
             if (removed != null)
             {
                 //
-                People.ReferenceList.RemoveAt((int)(removed));
+                People.PeopleRefData.RemoveAt((int)(removed));
             }
         }
 

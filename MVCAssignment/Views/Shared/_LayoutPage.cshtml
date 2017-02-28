@@ -6,35 +6,43 @@
 <head>
     <meta name="viewport" content="width=device-width" />
     <title>@ViewBag.Title - Pier's MVC</title>
-    <script src="~/Scripts/jquery-3.1.1.min.js"></script>
-    <script src="~/Scripts/jquery.unobtrusive-ajax.min.js"></script>
-    <script src="~/Scripts/bootstrap.min.js"></script>
-    <script src="~/Content/bootstrap.min.css"></script>
+    @RenderSection("head", required: false)
+    @Styles.Render("~/Content/css")
 </head>
-<body style="width:1024px; margin:0 auto; background-color:cadetblue; background-image:url(https://image.ibb.co/gXzHaa/wallpaper.jpg);
- border-bottom:1px solid black;">
+<body style="width:1024px;
+margin:0 auto;
+background-color:cadetblue;
+background-image:url(https://image.ibb.co/gXzHaa/wallpaper.jpg);
+border-bottom:1px solid black;
+color: black; ">
+
     <div style="background-image:none; background-color:cadetblue">
-        <header style="height:120px; border-bottom: 1px solid black; background-color:slategray">
-            <div style="display:inline-block">
-                <div style="display:inline-block">
+
+        <header style=" margin-top:0px; height:120px; border-bottom:1px solid black; background-color:slategray">
+
+            <div style="display:inline">
+
+                <div style="display:inline-block; float:left">
                     <img src="https://placeimg.com/640/120/tech" alt="Randomly generated logo" width="640" height="120" />
                 </div>
-                <div style="display:inline-block">
-                    <ul style="list-style-type:none">
-                        <li style="display:inline">
-                            <div style="display:inline-block"> <a style="text-decoration:none; font-size:large" href="~/Home/Index">Home</a> </div>
-                        </li>
-                        <li style="display:inline">
-                            <div style="display:inline-block"><a style="text-decoration:none; font-size:large"  href="~/Home/About">About</a></div>
-                        </li>
-                        <li style="display:inline">
-                            <div style="display:inline-block"><a style="text-decoration:none; font-size:large"  href="~/Home/Contact">Contact</a></div>
-                        </li>
-                    </ul>
+
+                <div style="display:inline-block; float:right">
+                    <nav class="navbar nav-pills">
+                        <div class="container-fluid">
+                            <ul style="list-style-type:none" class="nav navbar-nav">
+                                <li class="active"><a href="~/Home/Index">Home</a></li>
+                                <li><a href="~/Home/About">About</a></li>
+                                <li><a href="~/Home/Contact">Contact</a></li>
+                            </ul>
+                        </div>
+                    </nav>
                 </div>
+
             </div>
         </header>
-        <div style="padding-left:10px; padding-bottom:40px">
+
+
+        <div style="padding-left:15px; padding-right:15px; padding-bottom:40px">
             @RenderBody()
         </div>
         <footer style="text-align:center; padding-bottom:5px; border-top:1px dashed black; background-color:grey;">
@@ -46,5 +54,10 @@
             </h4>
         </footer>
     </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/bootstrap")
+
 </body>
 </html>

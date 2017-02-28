@@ -6,20 +6,30 @@
     Layout = "~/Views/Shared/_LayoutPage.cshtml";
 }
 
+<aside style="float:right">
+    <h4>
+        @Html.ActionLink("Fever check", "FeverCheck", "Features")
+    </h4>
+    <h4>
+        @Html.ActionLink("Guessing Game", "GuessingGame", "Features")
+    </h4>
+    <h4>
+        @Html.ActionLink("People", "People", "Features")
+    </h4>
+</aside>
+
+<br />
+
 <h1>Home</h1>
 
-<p><span style="font-weight:bold">Welcome to my page!</span> You're using this site from IP @IPAddress.Broadcast.</p>
+<p><span style="font-weight:bold">Welcome to my page!</span></p>
+
 <br />
+
+<p>You're using this site from IP @IPAddress.Broadcast.</p>
+
+<br />
+
 <div>
-    <img class="center-block" src="https://unsplash.it/400/120/?gravity=center" alt="placeholder" />
+    <img class="center-block" src="https://unsplash.it/960/160/?gravity=center" alt="placeholder" />
 </div>
-
-<br />
-
-<h2>
-    @Html.ActionLink("Fever check", "FeverCheck", "Features")
-
-    @Html.ActionLink("Guessing Game", "GuessingGame", "Features")
-
-    @Html.ActionLink("People", "People", "Features")
-</h2>
