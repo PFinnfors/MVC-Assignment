@@ -11,21 +11,23 @@
 
         <div style="display:inline">
             @* For each property (division) in the current row of PeopleData *@
-            @for (int d = 0; d < MVCAssignment.Models.People.PeopleData[ViewBag.row].Count; d++)
+            @for (int d = 0; d < MVCAssignment.Models.People.PeopleData[Convert.ToInt16(Model.customVDD["RowId"])].Count; d++)
             {
                 <div style="display:inline-block; width:200px">
                     @* Type out the property in the current section *@
-                    @MVCAssignment.Models.People.PeopleData[ViewBag.row][d]
+                    @MVCAssignment.Models.People.PeopleData[Convert.ToInt16(Model.customVDD["RowId"])][d]
                 </div>
             }
 
             @* Always added after the row items *@
             <div style="display:inline-block; width:200px">
 
-
-                @Ajax.ActionLink(ajaxOptions: new AjaxOptions { }, linkText: "edit", actionName: "_PartialEdit")
-
-
+                
+                @Ajax.ActionLink(ajaxOptions: new AjaxOptions
+           {
+               InsertionMode = InsertionMode.Replace,
+               UpdateTargetId = "pRow"
+           }, linkText: "edit", actionName: "_PartialEdit")
 
 
             </div>

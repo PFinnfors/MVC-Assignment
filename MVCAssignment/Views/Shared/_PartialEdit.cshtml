@@ -11,48 +11,48 @@
 
         <div style="display:inline">
             @* For each property (division) in the current row of PeopleData *@
-            @for (int d = 0; d < MVCAssignment.Models.People.PeopleData[ViewBag.row].Count; d++)
+            @for (int d = 0; d < MVCAssignment.Models.People.
+                PeopleData[Convert.ToInt16(Model.customVDD["RowId"])].Count; d++)
             {
                 <div style="display:inline-block; width:200px">
                     @* Type out the property in the current section *@
-                    @MVCAssignment.Models.People.PeopleData[ViewBag.row][d]
+                    @MVCAssignment.Models.People.PeopleData[Convert.ToInt16(Model.customVDD["RowId"])][d]
                 </div>
             }
 
-            @* Always added after the row items *@
-            <div style="display:inline-block; width:200px">
-
-
-                @Ajax.ActionLink(ajaxOptions: new AjaxOptions { }, linkText: "edit", actionName: "_PartialEdit")
-
-
-
-
-            </div>
         </div>
-        <div>
-            @using (Ajax.BeginForm(ajaxOptions: new AjaxOptions
-            {
-                //AJAX specifications
-                HttpMethod = "POST",
-                InsertionMode = InsertionMode.Replace,
-                UpdateTargetId = "pEdit"
+    </div>
+    <div>
+        @using (Ajax.BeginForm(ajaxOptions: new AjaxOptions
+        {
+            //AJAX specifications
+            HttpMethod = "POST",
+            InsertionMode = InsertionMode.Replace,
+            UpdateTargetId = "pEdit"
 
-            }, controllerName: "Features", actionName: "_PartialItem"))
-            {
-                @Html.NameFor(m => m.AddName)
-                @Html.EditorFor(m => m.AddName)
-                @Html.NameFor(m => m.AddPhone)
-                @Html.EditorFor(m => m.AddPhone)
-                @Html.NameFor(m => m.AddCity)
-                @Html.EditorFor(m => m.AddCity)
-                <input type="submit" value="submit" />
-            }
-        </div>
+        }, controllerName: "Features", actionName: "_PartialItem", routeValues: Model.customVDD))
+        {
+
+            @Html.LabelFor(m => m.AddName)
+            <span> </span>
+            @Html.EditorFor(m => m.AddName)
+
+            @Html.LabelFor(m => m.AddPhone)
+            <span> </span>
+            @Html.EditorFor(m => m.AddPhone)
+
+            @Html.LabelFor(m => m.AddCity)
+            <span> </span>
+            @Html.EditorFor(m => m.AddCity)
+
+            <input type="submit" value="submit" />
+
+        }
+
+        @*@Ajax.ActionLink(linkText: "delete", actionName: "")*@
     </div>
 
     <br />
 </div>
 
 
-        

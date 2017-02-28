@@ -123,12 +123,14 @@ namespace MVCAssignment.Controllers
             Session["Reference"] = People.PeopleRefData;
             Session["People"] = People.PeopleData;
 
+            people.customVDD.Add(new KeyValuePair<string, object>("rowId", "0"));
+
             return View(people);
         }
 
         //GET: _PartialItem
         [HttpGet]
-        public PartialViewResult _PartialItem(People People, People people, int? rowId = null)
+        public PartialViewResult _PartialItem(People People, People people, object custVDD)
         {
             //Loads lists from session states only if the states have been created
             people.LoadStates((List<List<string>>)(Session["People"]),
@@ -138,29 +140,23 @@ namespace MVCAssignment.Controllers
             //Narrows down PeopleList based on SearchString then updates inside method
             people.Search(People, people);
 
-
-
-            //When true, ActionMethod has been called from View with a row id argument
-            if (rowId != null)
-            {
-                //Stores row id from View to send into PartialView...
-                ViewBag.row = (int)(rowId);
-            }
-
-
-
+            //Stores object with updated RowId into the ViewDataDictionary
+            people.customVDD = (ViewDataDictionary)(custVDD);
+            
             //Saving lists into their sessions
             Session["Reference"] = People.PeopleRefData;
             Session["People"] = People.PeopleData;
 
             return PartialView(people);
         }
-
-
+        
         //POST: _PartialItem
         [HttpPost]
         public PartialViewResult _PartialItem(People People, People people)
         {
+            //Saves values from form into the targeted row's properties
+            int rowIndex = Convert.ToInt16(people.customVDD["RowId"]);
+            people.SaveFormValues(rowIndex);
 
             return PartialView(people);
         }

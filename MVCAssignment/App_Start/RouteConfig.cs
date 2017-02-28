@@ -18,8 +18,8 @@ namespace MVCAssignment
             //GET: People
             routes.MapRoute(
                 name: "People",
-                url: "People",
-                defaults: new { Controller = "Features", action = "People" });
+                url: "People/{rowId}",
+                defaults: new { Controller = "Features", action = "People", rowId = UrlParameter.Optional });
 
             //GET: GuessingGame
             routes.MapRoute(

@@ -43,7 +43,8 @@
 
     @* Div for replacing with AJAX *@
     <div id="pList">
-        @Html.Action(actionName: "_PartialItem", routeValues: new { row = r })
+        @{ Model.customVDD["rowId"] = r.ToString(); }
+        @Html.Partial(partialViewName: "_PartialItem", model: Model, viewData: Model.customVDD)
     </div>
 
 }
@@ -97,8 +98,8 @@
     InsertionMode = InsertionMode.InsertAfter,
     UpdateTargetId = "pList"
 }, controllerName: "Features", actionName: "_PartialItem")
-    {
-        //Html content
+{
+@* Html content *@
 @Html.DisplayNameFor(m => m.SearchString)
 <br />
 <input id="SearchString" name="SearchString" type="search" placeholder="filter">

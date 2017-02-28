@@ -28,6 +28,9 @@ namespace MVCAssignment.Models
         //Copies the previous list content to a new "working"-list for displaying people
         public static List<List<string>> PeopleData { get; set; } = new List<List<string>>(PeopleRefData);
 
+        //Creates new ViewDataDictionary for rowId
+        public ViewDataDictionary customVDD = new ViewDataDictionary();
+
         #endregion DATABASE
 
         #region FORM PROPS
@@ -65,9 +68,9 @@ namespace MVCAssignment.Models
                 from str in li
 
                     //where at least one substring in lowercase equals the lowercased SearchString
-                    where str.ToLowerInvariant().Contains(SearchString.ToLowerInvariant())
-                    //Selects the parent list of such a string
-                    select li;
+                where str.ToLowerInvariant().Contains(SearchString.ToLowerInvariant())
+                //Selects the parent list of such a string
+                select li;
 
                 //Replaces main list-of-lists with the final filtered list-of-lists
                 PeopleData = new List<List<string>>(matchingvalues);
@@ -127,8 +130,21 @@ namespace MVCAssignment.Models
             }
         }
 
-        #endregion LOGIC METHODS
+        //Saves form properties into the list
+        public void SaveFormValues(int targetRow)
+        {
+            //Saving form property values into the list of the target row
+            PeopleData[targetRow][0] = AddName;
+            PeopleData[targetRow][1] = AddPhone;
+            PeopleData[targetRow][2] = AddCity;
 
+            //Copying change over into reference
+            PeopleRefData[targetRow][0] = PeopleData[targetRow][0];
+            PeopleRefData[targetRow][1] = PeopleData[targetRow][1];
+            PeopleRefData[targetRow][2] = PeopleData[targetRow][2];
+        }
     }
+
+    #endregion LOGIC METHODS
 
 }
