@@ -109,6 +109,7 @@ namespace MVCAssignment.Controllers
         People people = new People();
 
         //GET: People
+        [HttpGet]
         public ActionResult People(People People, People people)
         {
             //Loads lists from session states only if the states have been created
@@ -125,6 +126,19 @@ namespace MVCAssignment.Controllers
 
             people.customVDD.Add(new KeyValuePair<string, object>("rowId", "0"));
 
+            //Prevents errors from showing on initial load
+            ModelState.Clear();
+
+            return View(people);
+        }
+
+        //POST: People
+        [HttpPost]
+        public ActionResult People(People people)
+        {
+            //Re-checks model
+            TryUpdateModel(people);
+
             return View(people);
         }
 
@@ -140,23 +154,12 @@ namespace MVCAssignment.Controllers
             //Narrows down PeopleList based on SearchString then updates inside method
             people.Search(People, people);
 
-            //Stores object with updated RowId into the ViewDataDictionary
+            //Stores row number from View
             people.customVDD = (ViewDataDictionary)(custVDD);
-            
+
             //Saving lists into their sessions
             Session["Reference"] = People.PeopleRefData;
             Session["People"] = People.PeopleData;
-
-            return PartialView(people);
-        }
-        
-        //POST: _PartialItem
-        [HttpPost]
-        public PartialViewResult _PartialItem(People People, People people)
-        {
-            //Saves values from form into the targeted row's properties
-            int rowIndex = Convert.ToInt16(people.customVDD["RowId"]);
-            people.SaveFormValues(rowIndex);
 
             return PartialView(people);
         }
@@ -165,19 +168,28 @@ namespace MVCAssignment.Controllers
         [HttpGet]
         public PartialViewResult _PartialEdit(People people)
         {
+            //Prevents errors from showing on initial load
+            ModelState.Clear();
 
             return PartialView(people);
         }
 
         //POST: _PartialEdit
         [HttpPost]
-        public PartialViewResult _PartialEdit(People people, bool placeholder = false)
+        //"People People" param added just to allow overload
+        public PartialViewResult _PartialEdit(People People, People people)
         {
+            //Re-checks model
+            TryUpdateModel(people);
+
+            //Checks form validity against model
             if (ModelState.IsValid)
             {
+                //Returns Partial with updated values
                 return PartialView("_PartialItem", people);
             }
 
+            //Returns the same Partial if model isn't valid
             return PartialView(people);
         }
     }

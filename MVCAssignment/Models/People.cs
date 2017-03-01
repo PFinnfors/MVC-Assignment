@@ -35,19 +35,16 @@ namespace MVCAssignment.Models
 
         #region FORM PROPS
 
-        [Display(Name = "Search: ")]
         public string SearchString { get; set; }
 
-        [Display(Name = "Name: ")]
+        [Required(ErrorMessage = "Name required")]
         public string AddName { get; set; }
 
-        [Display(Name = "Phone number: ")]
+        [Required(ErrorMessage = "Phone required")]
         public string AddPhone { get; set; }
 
-        [Display(Name = "City: ")]
+        [Required(ErrorMessage = "City required")]
         public string AddCity { get; set; }
-
-        public string ErrorMsg { get; set; }
 
         public int RowNum { get; set; }
 

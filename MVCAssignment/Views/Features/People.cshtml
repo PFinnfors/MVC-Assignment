@@ -30,9 +30,9 @@
 @*--LIST OF PEOPLE---------------------------------------------------------------------------------*@
 
 <div style="font-weight:bold; background-color:lightgrey; border-bottom:1px solid black">
-    <span style="display:inline-block; width:200px"><span>Name</span></span>
-    <span style="display:inline-block; width:200px">Phone number</span>
-    <span style="display:inline-block; width:200px">City</span>
+    <span style="display:inline-block; width:250px"><span>Name</span></span>
+    <span style="display:inline-block; width:250px">Phone number</span>
+    <span style="display:inline-block; width:250px">City</span>
     <span style="display:inline-block">Edit</span>
 </div>
 <br />
@@ -61,33 +61,24 @@
     @Html.DisplayNameFor(m => m.AddName)
     <br />
     @Html.EditorFor(m => m.AddName)
-
+    @Html.ValidationMessageFor(m => m.AddName)
     <br />
 
     @Html.DisplayNameFor(m => m.AddPhone)
     <br />
     @Html.EditorFor(m => m.AddPhone)
-
+    @Html.ValidationMessageFor(m => m.AddPhone)
     <br />
 
     @Html.DisplayNameFor(m => m.AddCity)
     <br />
     @Html.EditorFor(m => m.AddCity)
-
+    @Html.ValidationMessageFor(m => m.AddCity)
+    
+    <br />
     <br />
 
-    <span style="color:red">
-        @Html.DisplayFor(m => m.ErrorMsg)
-    </span>
-
-
-    <br />
     <input type="submit" />
-
-    <span style="color:red">
-        @Html.DisplayFor(m => m.ErrorMsg)
-    </span>
-
 }
 
 @* AJAX HttpPost form to add people *@

@@ -47,11 +47,11 @@ color: black; ">
         </div>
         <footer style="text-align:center; padding-bottom:5px; border-top:1px dashed black; background-color:grey;">
             @{ DateTime date = new DateTime(); date = DateTime.Now; }
-            <h4>
+            <h5>
                 @date.ToString("dd/MM/yyyy") | Pier S. Finnfors |
                 <span style="color:blue; font-weight:bold">@date.ToString("HH:mm:ss")</span>
                 @TimeZone.CurrentTimeZone.StandardName
-            </h4>
+            </h5>
         </footer>
     </div>
 

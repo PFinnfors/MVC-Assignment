@@ -1,10 +1,10 @@
 ﻿@model MVCAssignment.Models.People
 <div id="pRow">
-    <style>
+    @*<style>
         span {
             width: 200px;
         }
-    </style>
+    </style>*@
 
     <div style="background-color:lightslategray; border-bottom:1px solid black">
 
@@ -13,24 +13,26 @@
             @* For each property (division) in the current row of PeopleData *@
             @for (int d = 0; d < MVCAssignment.Models.People.PeopleData[Convert.ToInt16(Model.customVDD["RowId"])].Count; d++)
             {
-                <div style="display:inline-block; width:200px">
+                <div style="display:inline-block; width:250px">
                     @* Type out the property in the current section *@
                     @MVCAssignment.Models.People.PeopleData[Convert.ToInt16(Model.customVDD["RowId"])][d]
                 </div>
             }
 
             @* Always added after the row items *@
-            <div style="display:inline-block; width:200px">
+            <span style="display:inline-block">
 
                 
                 @Ajax.ActionLink(ajaxOptions: new AjaxOptions
            {
+               //AJAX specifications
+               HttpMethod = "GET",
                InsertionMode = InsertionMode.Replace,
                UpdateTargetId = "pRow"
            }, linkText: "edit", actionName: "_PartialEdit")
 
 
-            </div>
+            </span>
         </div>
     </div>
 

@@ -1,10 +1,10 @@
 ﻿@model MVCAssignment.Models.People
 <div id="pEdit">
-    <style>
+    @*<style>
         span {
-            width: 200px;
+            width: 225px;
         }
-    </style>
+    </style>*@
 
     <div style="background-color:lightslategray; border-bottom:1px solid black">
 
@@ -14,7 +14,7 @@
             @for (int d = 0; d < MVCAssignment.Models.People.
                 PeopleData[Convert.ToInt16(Model.customVDD["RowId"])].Count; d++)
             {
-                <div style="display:inline-block; width:200px">
+                <div style="display:inline-block; width:250px">
                     @* Type out the property in the current section *@
                     @MVCAssignment.Models.People.PeopleData[Convert.ToInt16(Model.customVDD["RowId"])][d]
                 </div>
@@ -30,23 +30,29 @@
             InsertionMode = InsertionMode.Replace,
             UpdateTargetId = "pEdit"
 
-        }, controllerName: "Features", actionName: "_PartialItem", routeValues: Model.customVDD))
+        }, controllerName: "Features", actionName: "_PartialEdit", routeValues: Model.customVDD))
         {
+            <span style="display:inline-block; width:250px">
+                @Html.EditorFor(m => m.AddName)
+            </span>
 
-            @Html.LabelFor(m => m.AddName)
-            <span> </span>
-            @Html.EditorFor(m => m.AddName)
+            <span style="display:inline-block; width:250px">
+                @Html.EditorFor(m => m.AddPhone)
+            </span>
 
-            @Html.LabelFor(m => m.AddPhone)
-            <span> </span>
-            @Html.EditorFor(m => m.AddPhone)
+            <span style="display:inline-block; width:250px">
+                @Html.EditorFor(m => m.AddCity)
+            </span>
 
-            @Html.LabelFor(m => m.AddCity)
-            <span> </span>
-            @Html.EditorFor(m => m.AddCity)
+            <span style="display:inline-block">
+                <input type="submit" value="submit" />
+            </span>
 
-            <input type="submit" value="submit" />
+            <br />
 
+            <p style="font-weight:bold; color:red">
+                @Html.ValidationSummary()
+            </p>
         }
 
         @*@Ajax.ActionLink(linkText: "delete", actionName: "")*@
